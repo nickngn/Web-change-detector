@@ -1,0 +1,75 @@
+{
+	"links": [
+  {
+    "title": "ca-nhan",
+    "link": "https://m-pay.vn/vi/ca-nhan-p2"
+  },
+  {
+    "title": "vi-dien-tu-emonkey",
+    "link": "https://m-pay.vn/vi/vi-dien-tu-emonkey--pd18"
+  },
+  {
+    "title": "huong-dan-dang-ky",
+    "link": "https://m-pay.vn/vi/dang-ky-vi-mobile-app--pd20"
+  },
+  {
+    "title": "huong-dan-nap-tien",
+    "link": "https://m-pay.vn/vi/huong-dan-nap-tien-vi-emonkey--pd39"
+  },
+  {
+    "title": "nap-the-tu-the-ngan-hang-lien-ket-voi-ung-dung",
+    "link": "https://m-pay.vn/vi/tin-dich-vu/nap-tien-truc-tiep-sd0"
+  },
+  {
+    "title": "nap-tien-nhanh-qua-bidv",
+    "link": "https://m-pay.vn/vi/tin-dich-vu/1-nap-tien-nhanh-qua-bidv-sd0"
+  },
+  {
+    "title": "chueyn-khoan-qua-internet-banking-hoac-mobile-banking",
+    "link": "https://m-pay.vn/vi/tin-dich-vu/chuyen-khoan-qua-internet-banking-mobile-banking:-sd0"
+  },
+  {
+    "title": "nop-tien-hoac-chuyen-khoan-tai-quay-giao-dich",
+    "link": "https://m-pay.vn/vi/tin-dich-vu/nop-tien-hoac-chuyen-khoan-tai-quay-giao-dich-ngan-hang:-sd0"
+  },
+  {
+    "title": "chuyen-khoan-qua-atm",
+    "link": "https://m-pay.vn/vi/tin-dich-vu/chuyen-khoan-qua-atm-sd0"
+  },
+  {
+    "title": "truong-hop-han-che-rut-tien",
+    "link": "https://m-pay.vn/vi/huong-dan-rut-tien--pd51"
+  },
+  {
+    "title": "cau-hoi-thuong-gap",
+    "link": "https://m-pay.vn/vi/famp;q--pd45"
+  },
+  {
+    "title": "dieu-khoan-va-chinh-sach",
+    "link": "https://m-pay.vn/vi/dieu-khoan-su-dung-vi-dien-tu-emonkey--pd40"
+  },
+  {
+    "title": "ngan-hang",
+    "link": "https://m-pay.vn/vi/ngan-hang-p4"
+  },
+  {
+    "title": "san-pham-mplus-mobile",
+    "link": "https://m-pay.vn/vi/san-pham-m-plus-mobile--pd48"
+  },
+  {
+    "title": "tien-ich-cho-khach-hang",
+    "link": "https://m-pay.vn/vi/tien-ich-cho-khach-hang--pd49"
+  },
+  {
+    "title": "cac-ngan-hang-doi-tac",
+    "link": "https://m-pay.vn/vi/cac-ngan-hang-doi-tac--pd50"
+  },  
+  {
+    "title": "loi-ich-mua-the",
+    "link": "https://m-pay.vn/vi/nap-tien-amp;-mua-ma-the--pd7"
+  }
+],
+	"sender": "hungnd.mpay@gmail.com",
+	"senderPassword": "andyhung",
+	"receivers": ["hungnd.iam@gmail.com"]
+}
