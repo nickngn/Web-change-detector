@@ -23,18 +23,23 @@ public class RequestService {
 	 * Send request to link
 	 * @param link
 	 * @return body of return; 
-	 * @throws URLException 
+	 * @throws URLException
+	 * @author HungND
 	 */
-	public String requestToLink(LinkObject link) throws URLException {
-		ResponseEntity<String> response;
+	public String requestToLink(LinkObject link) throws URLException, RestClientException  {
 		try {
-			URL url = new URL(link.getLink());
-			response = restTemplate.getForEntity(url.toURI(), String.class);
-			return response.getBody();
-		} catch (URISyntaxException | MalformedURLException e) {
-			throw new URLException("Link khong hoat dong. " + link.toString(),e);
-		} catch (Exception e){
-			throw new RestClientException("Loi ket noi. " + link, e);
-		}
+			return callRequest(link.getLink());
+		} catch (MalformedURLException | URISyntaxException e) {
+			throw new URLException("URL khong dung dinh dang.");
+		} catch (RestClientException e) {
+			throw new RestClientException("Loi ket noi den url: " + link.getLink());
+		} 
+	}
+	
+	private String callRequest(String sUrl) 
+			throws MalformedURLException, RestClientException, URISyntaxException {
+		URL url = new URL(sUrl);
+		ResponseEntity<String> response = restTemplate.getForEntity(url.toURI(), String.class);
+		return response.getBody();
 	}
 }

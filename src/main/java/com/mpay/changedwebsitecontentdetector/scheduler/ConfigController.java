@@ -1,11 +1,6 @@
 package com.mpay.changedwebsitecontentdetector.scheduler;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-
-import javax.mail.MessagingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mpay.changedwebsitecontentdetector.exception.ParseJsonException;
 import com.mpay.changedwebsitecontentdetector.service.ConfigService;
 import com.mpay.changedwebsitecontentdetector.service.EmailService;
-import com.mpay.changedwebsitecontentdetector.utils.IOUtils;
 
 @RestController
 public class ConfigController {
@@ -41,10 +35,14 @@ public class ConfigController {
 	}
 	
 	@GetMapping("/example-send-mail") 
-	public String checkSendingMail() throws MessagingException, IOException{
-		String link = IOUtils.getFilePath("html", "website_content", "ca-nhan");
-		Path path = FileSystems.getDefault().getPath(link);
-		sender.sendAttachedMessage("Gui cho Hung dep trai", "THis is the content of mail sent to hung dep trai", path.toFile());
+	public String checkSendingMail() {
+		sender.sendSimpleMessage("Gui cho Hung dep trai", "This is the content of mail sent to hung dep trai to test check sending mail");
 		return "Ô kê";
+	}
+	
+	@GetMapping("/check-sending-email") 
+	public String checkSendingMail2() {
+		sender.sendSimpleMessage("Gui cho Hung dep trai", "This is the content of mail sent to hung dep trai to test check sending mail");
+		return "Sending email service is okay.";
 	}
 }

@@ -45,12 +45,12 @@ public class ChangedWebsiteContentDetectorApplication {
 	    mailSender.setPort(587);
 	    mailSender.setUsername(ConfigService.getConfig().getSender());
 	    mailSender.setPassword(ConfigService.getConfig().getSenderPassword());
-	     
 	    Properties props = mailSender.getJavaMailProperties();
 	    props.put("mail.transport.protocol", "smtp");
 	    props.put("mail.smtp.auth", "true");
 	    props.put("mail.smtp.starttls.enable", "true");
 	    props.put("mail.debug", "true");
+	    mailSender.setJavaMailProperties(props);
 	     
 	    return mailSender;
 	}

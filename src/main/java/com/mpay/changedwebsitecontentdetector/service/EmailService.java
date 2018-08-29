@@ -1,10 +1,14 @@
 package com.mpay.changedwebsitecontentdetector.service;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.util.Date;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -12,11 +16,18 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.mpay.changedwebsitecontentdetector.object.LinkObject;
+
 @Service
 public class EmailService {
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	private final String SUBJECT_TEMPLATE = "Phat hien thay doi noi dung website ";
 
 	@Autowired
     public JavaMailSender emailSender;
+	
+
  
     public void sendSimpleMessage(String subject, String text) {
     	SimpleMailMessage message = new SimpleMailMessage(); 
@@ -38,5 +49,21 @@ public class EmailService {
     	helper.addAttachment("Changed file", fileSystemResource);
         emailSender.send(message);
     }
+    
+    public void sendNotifyMail(LinkObject link, String emailContent) {
+    	sendSimpleMessage(SUBJECT_TEMPLATE + link.getTitle(), emailContent);
+    }
+
+	public void sendNotifyMail(LinkObject link, Path differenceFile, String difference) throws MessagingException {
+		String content = makeContent(link, difference);
+		sendAttachedMessage(SUBJECT_TEMPLATE + link.getTitle(), content, differenceFile.toFile());
+		logger.info("Sent notification mail");
+	}
+	
+	private String makeContent(LinkObject linkObject, String difference) {
+		return "Phát hiện ra sự thay đổi của website: " + linkObject.getTitle() + "\n"
+		+ "Có đường dẫn là: " + linkObject.getLink() + "\n"
+		+ "Vào lúc: " + new Date().toString();
+	}
 	
 }
