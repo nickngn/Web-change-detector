@@ -46,12 +46,16 @@ public class EmailService {
     	helper.setSubject(subject); 
     	helper.setText(text);
     	FileSystemResource fileSystemResource = new FileSystemResource(file);
-    	helper.addAttachment("Changed file", fileSystemResource);
+    	helper.addAttachment(file.getName(), fileSystemResource);
         emailSender.send(message);
     }
     
     public void sendNotifyMail(LinkObject link, String emailContent) {
     	sendSimpleMessage(SUBJECT_TEMPLATE + link.getTitle(), emailContent);
+    }
+    
+    public void sendNotifyMail(String emailContent) {
+    	sendSimpleMessage(SUBJECT_TEMPLATE, emailContent);
     }
 
 	public void sendNotifyMail(LinkObject link, Path differenceFile, String difference) throws MessagingException {

@@ -28,6 +28,7 @@ public class ContentService {
 	private final static String STORE_DIRECTORY = "website_content";
 	private final static String OLD_VERSION_DIR = "old_versions";
 	private final static String DIFFERENCES_DIRECTORY = "differences";
+	private final static String LOG_DIRECTORY = "log";
 	
 	private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hhmmss_yyyyMMdd");
 
@@ -35,6 +36,7 @@ public class ContentService {
 		createDirIfNotExist(Paths.get(STORE_DIRECTORY));
 		createDirIfNotExist(Paths.get(OLD_VERSION_DIR));
 		createDirIfNotExist(Paths.get(DIFFERENCES_DIRECTORY));
+		createDirIfNotExist(Paths.get(LOG_DIRECTORY));
 	}
 	
 	public static void createDirIfNotExist(Path path) throws IOException {

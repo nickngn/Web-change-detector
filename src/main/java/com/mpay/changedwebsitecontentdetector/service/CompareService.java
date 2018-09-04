@@ -18,8 +18,8 @@ public class CompareService {
 	public static List<String> diff(List<String> sourcesTags, List<String> newTags) {
 	    int[][] lengths = new int[sourcesTags.size()+1][newTags.size()+1];
 	    
-	    removeEmptyLines(sourcesTags);
-	    removeEmptyLines(newTags);
+//	    removeEmptyLines(sourcesTags);
+//	    removeEmptyLines(newTags);
 	 
 	    // row 0 and column 0 are initialized to 0 already
 	    // init the matrix checking for differences
@@ -51,18 +51,18 @@ public class CompareService {
 	    return diffs;
 	}
 	
-	private static void removeEmptyLines(List<String> lines) {
-	    Predicate<String> emptyLinefilter = new Predicate<String>() {
-			
-			@Override
-			public boolean test(String t) {
-				if (t == null) return true;
-				return t.equals("\r") || t.equals("");
-			}
-		};
-		
-		lines.removeIf(emptyLinefilter);
-	}
+//	private static void removeEmptyLines(List<String> lines) {
+//	    Predicate<String> emptyLinefilter = new Predicate<String>() {
+//			
+//			@Override
+//			public boolean test(String t) {
+//				if (t == null) return false;
+//				return t.equals("\r") || t.equals("");
+//			}
+//		};
+//		
+//		lines.removeIf(emptyLinefilter);
+//	}
 	
 	private static void removeTokenInputs(List<String> lines) {
 		// make filter check for input token
