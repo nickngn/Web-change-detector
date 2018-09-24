@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector.service;
+package com.mpay.ccd.service;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -16,7 +16,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.mpay.changedwebsitecontentdetector.object.LinkObject;
+import com.mpay.ccd.object.LinkObject;
 
 @Service
 public class EmailService {

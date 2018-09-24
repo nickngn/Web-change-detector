@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector.scheduler;
+package com.mpay.ccd.scheduler;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -11,13 +11,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 
-import com.mpay.changedwebsitecontentdetector.exception.URLException;
-import com.mpay.changedwebsitecontentdetector.object.ConfigObject;
-import com.mpay.changedwebsitecontentdetector.object.LinkObject;
-import com.mpay.changedwebsitecontentdetector.service.ConfigService;
-import com.mpay.changedwebsitecontentdetector.service.ContentService;
-import com.mpay.changedwebsitecontentdetector.service.EmailService;
-import com.mpay.changedwebsitecontentdetector.service.RequestService;
+import com.mpay.ccd.exception.URLException;
+import com.mpay.ccd.object.ConfigObject;
+import com.mpay.ccd.object.LinkObject;
+import com.mpay.ccd.service.ConfigService;
+import com.mpay.ccd.service.ContentService;
+import com.mpay.ccd.service.EmailService;
+import com.mpay.ccd.service.RequestService;
 
 @Service
 public class Operator {
@@ -42,18 +42,19 @@ public class Operator {
 		ConfigObject config = ConfigService.getConfig();
 		for (LinkObject link : config.getLinks()) {
 			try {
-				change = requestThenCompareAndSendEmail(link);
+				String newContent = requestSender.requestToLink(link);
+				change += compare(link, newContent);
 			} catch (URLException e) {
-				logger.error("Url khong dung dinh dang: {}", link, e);
 				isChanged = true;
+				logger.error("Url khong dung dinh dang: {}", link, e);
 				change += "Url \n" + link.getLink() + " \nkhong dung dinh dang.";
 			} catch (RestClientException e) {
-				logger.error("Khong ket noi duoc den url: {}", link.getLink());
 				isChanged = true;
+				logger.error("Khong ket noi duoc den url: {}", link.getLink());
 				change += "Url \n" + link.getLink() + " \nkhong hoat dong.";
 			} catch (IOException e) {
-				logger.error("Khong doc/ghi duoc file cua url: {}", link.getLink(), e);
 				isChanged = true;
+				logger.error("Khong doc/ghi duoc file cua url: {}", link.getLink(), e);
 				change += "Khong ghi duoc noi dung website cua Url: \n" + link.getLink();
 			} 
 		}
@@ -63,10 +64,9 @@ public class Operator {
 		}
 	}
 	
-	private String requestThenCompareAndSendEmail(LinkObject link) 
-			throws RestClientException, URLException, IOException {
-		String change;
-		String newContent = requestSender.requestToLink(link);
+	private String compare(LinkObject link, String newContent) 
+			throws RestClientException, IOException {
+		String change = "";
 		String storedContent = contentService.getLastSavedContentOfTitle(link.getTitle());
 		if (newContent == null) newContent = "";
 		if (storedContent.equals("FILE_NEVER_STORED_BEFORE")) {
@@ -78,7 +78,11 @@ public class Operator {
 		}
 		 else {
 			String diff = contentService.getDifferent(storedContent, newContent);
-			if (diff != "NO_DIFFERENCE") {
+			if (diff.equals("NO_DIFFERENCE")) {
+				logger.info("\nKhong phat hien thay doi cua website: "+ link.getTitle() 
+					+ "\nDuong dan: " + link.getLink() 
+					+ "\nVao luc: " + new Date().toString());
+			} else {
 				Path path = contentService.storeFileAsDifference(link.getTitle(), diff);
 				contentService.storeFileAsOldVersion(link.getTitle());
 				contentService.storeFileAsLatest(link.getTitle(), newContent);
@@ -88,11 +92,7 @@ public class Operator {
 					+ "\nChi tiet thay doi xem tai: differences/" + path.getFileName();
 				isChanged = true;
 				logger.error(change);
-			} else {
-				change = "\nKhong phat hien thay doi cua website: "+ link.getTitle() 
-						+ "\nDuong dan: " + link.getLink() 
-						+ "\nVao luc: " + new Date().toString();
-				logger.info(change);
+				
 			}
 		}
 		return change;

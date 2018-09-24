@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector.utils;
+package com.mpay.ccd.utils;
 
 import java.io.File;
 import java.io.IOException;

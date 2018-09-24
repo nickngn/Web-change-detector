@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector.scheduler;
+package com.mpay.ccd.scheduler;
 
 import java.io.FileNotFoundException;
 
@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mpay.changedwebsitecontentdetector.exception.ParseJsonException;
-import com.mpay.changedwebsitecontentdetector.service.ConfigService;
-import com.mpay.changedwebsitecontentdetector.service.EmailService;
+import com.mpay.ccd.exception.ParseJsonException;
+import com.mpay.ccd.service.ConfigService;
+import com.mpay.ccd.service.EmailService;
 
 @RestController
 public class ConfigController {

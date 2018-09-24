@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector.service;
+package com.mpay.ccd.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mpay.changedwebsitecontentdetector.exception.ParseJsonException;
-import com.mpay.changedwebsitecontentdetector.object.ConfigObject;
+import com.mpay.ccd.exception.ParseJsonException;
+import com.mpay.ccd.object.ConfigObject;
 
 @Service
 public class ConfigService {

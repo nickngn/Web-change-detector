@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector.service;
+package com.mpay.ccd.service;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.mpay.changedwebsitecontentdetector.exception.URLException;
-import com.mpay.changedwebsitecontentdetector.object.LinkObject;
+import com.mpay.ccd.exception.URLException;
+import com.mpay.ccd.object.LinkObject;
 
 @Service
 public class RequestService {

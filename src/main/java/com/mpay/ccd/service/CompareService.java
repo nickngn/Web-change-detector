@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector.service;
+package com.mpay.ccd.service;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,6 +6,21 @@ import java.util.function.Predicate;
 
 public class CompareService {
 	
+	private final static String ADD_COMMENT_OPEN = 
+			  "\n<!---------        ADD OPEN        ------------------------------>"
+			+ "\n<div style='color: green'>";
+	
+	private final static String ADD_COMMENT_CLOSE = 
+			  "\n</div>"
+			+ "\n<!---------        ADD CLOSE        ------------------------------>";
+	
+	private final static String DELETE_COMMENT_OPEN = 
+			  "\n<!---------        DELETE OPEN         ------------------------------>"
+			+ "\n<div style='text-decoration: line-through;'>";
+	
+	private final static String DELETE_COMMENT_CLOSE = 
+			  "\n</div>" 
+			+ "\n<!---------        DELETE CLOSE         ------------------------------>";
 
     /**
      * Tim ra nhung element khac nhau giua 2 List. 
@@ -35,11 +50,11 @@ public class CompareService {
 	    for (int x = sourcesTags.size(), y = newTags.size(); x != 0 && y != 0; ) {
 	        if (lengths[x][y] == lengths[x-1][y]) {
 	        	x--;
-	        	diffs.add(y, "<div style='text-decoration: line-through;'>" + sourcesTags.get(x) + "</div>");
+	        	diffs.add(y, DELETE_COMMENT_OPEN + sourcesTags.get(x) + DELETE_COMMENT_CLOSE);
 	        }
 	        else if (lengths[x][y] == lengths[x][y-1]) {
 	        	y--;
-	        	diffs.set(y, "<div style='color: green'>" + newTags.get(y) + "</div>");
+	        	diffs.set(y, ADD_COMMENT_OPEN + newTags.get(y) + ADD_COMMENT_CLOSE);
 	        } else {
 	        	x--;
 	        	y--;

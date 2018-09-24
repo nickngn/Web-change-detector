@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector.object;
+package com.mpay.ccd.object;
 
 import java.util.Set;
 

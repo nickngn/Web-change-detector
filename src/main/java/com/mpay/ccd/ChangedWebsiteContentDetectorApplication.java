@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector;
+package com.mpay.ccd;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -14,8 +14,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mpay.changedwebsitecontentdetector.service.ConfigService;
-import com.mpay.changedwebsitecontentdetector.service.ContentService;
+import com.mpay.ccd.service.ConfigService;
+import com.mpay.ccd.service.ContentService;
 
 @SpringBootApplication
 @EnableScheduling

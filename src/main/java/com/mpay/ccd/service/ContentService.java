@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector.service;
+package com.mpay.ccd.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.mpay.changedwebsitecontentdetector.utils.IOUtils;
+import com.mpay.ccd.utils.IOUtils;
 
 @Service
 public class ContentService {

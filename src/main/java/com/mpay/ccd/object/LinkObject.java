@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector.object;
+package com.mpay.ccd.object;
 
 public class LinkObject {
 

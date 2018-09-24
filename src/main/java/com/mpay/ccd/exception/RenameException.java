@@ -1,4 +1,4 @@
-package com.mpay.changedwebsitecontentdetector.exception;
+package com.mpay.ccd.exception;
 
 public class RenameException extends Exception {
 
