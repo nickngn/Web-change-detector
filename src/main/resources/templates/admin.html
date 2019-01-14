@@ -1,0 +1,122 @@
+<html xmlns:th="http:/thymeleaf.org">
+    <head>
+        <title>Admin</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </head>
+    <body class="container">
+        <a href="#config-div" data-toggle="collapse" class="" aria-expanded="true"><h2>Cấu hình</h2></a>
+        <div id="config-div" class="collapse container">
+            <button class="btn btn-success" id="btn-update-config">Cập nhật cấu hình</button><br/>
+            <hr/>
+            Port: <input type="number" class="form-control" id="port" placeholder="Thời gian lặp" th:value="${port}" /> <br/>
+            Thời gian lặp (ms): <input type="number" class="form-control" id="loopingTime" placeholder="Thời gian lặp" th:value="${loopingTime}" /> <br/>
+            Email gửi thông báo: <input type="email" id="senderEmail" class="form-control" placeholder="Email gửi thông báo" th:value="${config.sender}" /><br/>
+            Mật khẩu: <input type="password" id="senderEmailPassword" class="form-control" placeholder="Mật khẩu" th:value="${config.senderPassword}" /><br/>
+            Email nhận thông báo: (Cách nhau bằng dấu ';') <br/>
+            <textarea id="receiverEmails" class="form-control"
+                placeholder="ví dụ:\n 
+                abcdef@gmail.com;
+                123456@gmail.com;
+            ">[[${#strings.setJoin(config.receivers, ";")}]]</textarea> 
+        </div>
+        <br/>
+
+        <a href="#links-div" data-toggle="collapse"><h2>Danh sách link cần giám sát: </h2></a>
+        <div id="links-div" class="collapse container" >
+            <button class="btn btn-success" id="btn-update-links">Cập nhật danh sách link</button>
+            <button id="add" class="btn btn-info">Thêm link</button>
+            <hr/>
+            <div th:each="linkObject, stat : ${config.links}" class="link-div">
+                Title: 
+                <input type="text" class="form-control links" style="border:none" th:value="${linkObject.title}" />
+                Link:
+                <input type="text" class="form-control links" style="border:none"  th:value="${linkObject.link}" />
+                <button class="delete btn">Xóa link</button>
+                <hr/>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            $("#btn-update-config").on("click", function() {
+                var config = {
+                    port: $("#port").val(),
+                    loopingTime: $("#loopingTime").val(),
+                    senderEmail: $("#senderEmail").val(),
+                    senderEmailPassword: $("#senderEmailPassword").val(),
+                    receiverEmails: $("#receiverEmails").val(),
+                };
+                $.ajax({
+                    url: "/update-config",
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                        "datatype": "json" 
+                    },
+                    data: JSON.stringify(config),
+                    success: function(response){
+                        if (response === 'Ok') {
+                        	alert("Cập nhật cấu hình thành công");
+                        	var newlocation = "http://localhost:" + $("#port").val();
+                            window.location.href = newlocation;
+                        } else {
+                        	alert("Cập nhật cấu hình KHÔNG thành công\n" + response);
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err);
+                        alert("Cập nhật cấu hình KHÔNG thành công\n" + err.response);
+                    }
+                });
+            });
+            $(document).on("click", "#add", function(){
+                var html = "<hr/>"
+                	+"<div class='link-div'>"
+                        +"Title:" 
+                        +"<input type='text' class='form-control links'/>"
+                        +"Link:"
+                        +"<input type='text' class='form-control links' />"
+                        +"<button class='delete btn'>Xóa link</button>"
+                    +"</div>";
+                $(html).insertAfter("#add");
+            });
+
+            $(document).on("click", ".delete", function(){
+                var index = $(".delete").index($(this));
+                console.log("Xóa title và link có index: " + index);
+                $(".link-div:eq("+index+")").remove();
+            });
+
+            $("#btn-update-links").on("click", function(){
+                var links = [];
+                for (var i = 0; i < $(".links").length; i++) {
+                    links.push({
+                        title: $(".links:eq("+i+")").val(),
+                        link: $(".links:eq("+(i+1)+")").val()
+                    });
+                    i++;
+                }
+                $.ajax({
+                    url: "/update-links",
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                        "datatype": "json" 
+                    },
+                    data: JSON.stringify(links),
+                    success: function(){
+                        alert("Cập nhật danh sách link thành công");
+                    },
+                    error: function(err) {
+                        console.log(err);
+                        alert("Cập nhật danh sách link KHÔNG thành công\n" + err.response);
+                    }
+                });
+                console.log("links: ",links);
+            });
+        </script>
+    </body>
+</html>

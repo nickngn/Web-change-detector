@@ -1,57 +1,57 @@
 package com.mpay.ccd.exception;
 
 /**
- * The Class ParseJsonException.
+ * The Class InvalidJsonException.
  */
-public class ParseJsonException extends Exception {
+public class InvalidJsonException extends Exception {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Instantiates a new parses the json exception.
+	 * Instantiates a new invalid json exception.
 	 */
-	public ParseJsonException() {
+	public InvalidJsonException() {
 		super();
 	}
 
 	/**
-	 * Instantiates a new parses the json exception.
+	 * Instantiates a new invalid json exception.
 	 *
 	 * @param message the message
 	 * @param cause the cause
 	 * @param enableSuppression the enable suppression
 	 * @param writableStackTrace the writable stack trace
 	 */
-	public ParseJsonException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public InvalidJsonException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
 	/**
-	 * Instantiates a new parses the json exception.
+	 * Instantiates a new invalid json exception.
 	 *
 	 * @param message the message
 	 * @param cause the cause
 	 */
-	public ParseJsonException(String message, Throwable cause) {
+	public InvalidJsonException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
-	 * Instantiates a new parses the json exception.
+	 * Instantiates a new invalid json exception.
 	 *
 	 * @param message the message
 	 */
-	public ParseJsonException(String message) {
+	public InvalidJsonException(String message) {
 		super(message);
 	}
 
 	/**
-	 * Instantiates a new parses the json exception.
+	 * Instantiates a new invalid json exception.
 	 *
 	 * @param cause the cause
 	 */
-	public ParseJsonException(Throwable cause) {
+	public InvalidJsonException(Throwable cause) {
 		super(cause);
 	}
 

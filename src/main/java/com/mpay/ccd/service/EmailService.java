@@ -1,8 +1,7 @@
 package com.mpay.ccd.service;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.util.Date;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -16,58 +15,86 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.mpay.ccd.object.LinkObject;
+import com.mpay.ccd.model.LinkModel;
 
+/**
+ * The Class EmailService.
+ */
 @Service
 public class EmailService {
-	
-	private Logger logger = LoggerFactory.getLogger(getClass());
-	private final String SUBJECT_TEMPLATE = "Phat hien thay doi noi dung website ";
 
-	@Autowired
-    public JavaMailSender emailSender;
-	
+  /** The email sender. */
+  @Autowired
+  public JavaMailSender emailSender;
 
- 
-    public void sendSimpleMessage(String subject, String text) {
-    	SimpleMailMessage message = new SimpleMailMessage(); 
-    	String[] receivers = ConfigService.getConfig().getReceivers().toArray(new String[] {});
-		message.setTo(receivers); 
-        message.setSubject(subject); 
-        message.setText(text);
-        emailSender.send(message);
-    }
-    
-    public void sendAttachedMessage(String subject, String text, File file) throws MessagingException {
-    	MimeMessage message = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        String[] receivers = ConfigService.getConfig().getReceivers().toArray(new String[] {});
-        helper.setTo(receivers); 
-    	helper.setSubject(subject); 
-    	helper.setText(text);
-    	FileSystemResource fileSystemResource = new FileSystemResource(file);
-    	helper.addAttachment(file.getName(), fileSystemResource);
-        emailSender.send(message);
-    }
-    
-    public void sendNotifyMail(LinkObject link, String emailContent) {
-    	sendSimpleMessage(SUBJECT_TEMPLATE + link.getTitle(), emailContent);
-    }
-    
-    public void sendNotifyMail(String emailContent) {
-    	sendSimpleMessage(SUBJECT_TEMPLATE, emailContent);
-    }
+  private Logger logger = LoggerFactory.getLogger(getClass());
+  
+  /** The Constant SUBJECT_TEMPLATE. */
+  private static final String SUBJECT_TEMPLATE = "Phat hien thay doi noi dung website ";
 
-	public void sendNotifyMail(LinkObject link, Path differenceFile, String difference) throws MessagingException {
-		String content = makeContent(link, difference);
-		sendAttachedMessage(SUBJECT_TEMPLATE + link.getTitle(), content, differenceFile.toFile());
-		logger.info("Sent notification mail");
-	}
-	
-	private String makeContent(LinkObject linkObject, String difference) {
-		return "Phát hiện ra sự thay đổi của website: " + linkObject.getTitle() + "\n"
-		+ "Có đường dẫn là: " + linkObject.getLink() + "\n"
-		+ "Vào lúc: " + new Date().toString();
-	}
-	
+  /**
+   * Send simple message.
+   *
+   * @param subject
+   *          the subject
+   * @param text
+   *          the text
+   */
+  public void sendSimpleMessage(String subject, String text) {
+    logger.info("Gui email: Subject={}, Content={}", subject, text);
+    SimpleMailMessage message = new SimpleMailMessage();
+    String[] receivers = ConfigService.getConfig().getReceivers().toArray(new String[] {});
+    message.setTo(receivers);
+    message.setSubject(subject);
+    message.setText(text);
+    emailSender.send(message);
+  }
+
+  /**
+   * Send attached message.
+   *
+   * @param text
+   *          the text
+   * @param files
+   *          the files
+   * @throws MessagingException
+   *           the messaging exception
+   */
+  public void sendAttachedMessage(String text, List<File> files) throws MessagingException {
+    logger.info("Gui email: Subject={}, Content={}", SUBJECT_TEMPLATE, text);
+    MimeMessage message = emailSender.createMimeMessage();
+    MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    String[] receivers = ConfigService.getConfig().getReceivers().toArray(new String[] {});
+    helper.setTo(receivers);
+    helper.setSubject(SUBJECT_TEMPLATE);
+    helper.setText(text);
+    for (File file : files) {
+      FileSystemResource fileSystemResource = new FileSystemResource(file);
+      helper.addAttachment(file.getName(), fileSystemResource);
+    }
+    emailSender.send(message);
+  }
+
+  /**
+   * Send notify mail.
+   *
+   * @param link
+   *          the link
+   * @param emailContent
+   *          the email content
+   */
+  public void sendNotifyMail(LinkModel link, String emailContent) {
+    sendSimpleMessage(SUBJECT_TEMPLATE + link.getTitle(), emailContent);
+  }
+
+  /**
+   * Send notify mail.
+   *
+   * @param emailContent
+   *          the email content
+   */
+  public void sendNotifyMail(String emailContent) {
+    sendSimpleMessage(SUBJECT_TEMPLATE, emailContent);
+  }
+
 }
