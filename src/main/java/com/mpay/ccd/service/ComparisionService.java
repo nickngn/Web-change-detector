@@ -45,8 +45,8 @@ public class ComparisionService {
 	 * @return if it is all same totally, return "NO_DIFFERENCE"
 	 */
 	public String getDifference(String source, String receivedContent) {
-		if ((source == null && receivedContent == null) || (source != null && source.equals(receivedContent))) {
-			return "NO_DIFFERENCE";
+		if ((source != null && source.equals(receivedContent)) || (source == null && receivedContent == null)) {
+			return "";
 		}
 		
 		if (source == null) {
@@ -67,7 +67,7 @@ public class ComparisionService {
 		List<String> diff = diff(htmlSourceTags, htmlNewTags);
 		
 		if (diff.isEmpty()) {
-			return "NO_DIFFERENCE";
+			return "";
 		}
 		
 		return StringUtils.collectionToDelimitedString(diff, "");

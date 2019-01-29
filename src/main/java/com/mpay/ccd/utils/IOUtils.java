@@ -18,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.mpay.ccd.exception.FileNotExistException;
+
 /**
  * The Class IOUtils.
  */
@@ -129,18 +131,18 @@ public class IOUtils {
 	 * @param title the title
 	 * @return content of file; if file is not exist return "FILE_NEVER_STORED_BEFORE"
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws FileNotExistException 
 	 */
-	public String getLastestFileContent(String title) throws IOException {
+	public String getLastestFileContent(String title) throws IOException, FileNotExistException {
 		String link = IOUtils.getFilePath("html", STORE_DIRECTORY, title);
 		File file = new File(link);
-		if (file.exists()) {			
-			try {
-				return readFileAsString(link);
-			} catch (IOException e) {
-				throw new IOException("Khong doc duoc noi dung file " + STORE_DIRECTORY + "/" + title + ".html");
-			}
-		} else {
-			return "FILE_NEVER_STORED_BEFORE";
+		if (!file.exists()) {
+		  throw new FileNotExistException("Khong tim thay file: " + link);
+		}		
+		try {
+			return readFile(link);
+		} catch (IOException e) {
+			throw new IOException("Khong doc duoc noi dung file " + STORE_DIRECTORY + "/" + title + ".html");
 		}
 	}
 	
@@ -151,7 +153,7 @@ public class IOUtils {
 	 * @return the string
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	private String readFileAsString(String fileName) throws IOException{
+	private String readFile(String fileName) throws IOException{
 	    String data = "";
 	    data = new String(Files.readAllBytes(Paths.get(fileName)));
 	    return data;
