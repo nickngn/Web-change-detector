@@ -38,9 +38,6 @@ public class ConfigService {
 	/** The config. */
 	private static ConfigModel config;
 	
-	/** The object mapper. */
-	private static ObjectMapper objectMapper = new ObjectMapper();
-	
 	/** The runningPort. */
 	@Value("${server.port}")
 	private int runningPort;
@@ -96,7 +93,7 @@ public class ConfigService {
 		logger.info("Update config: {}", newConfig);
 		insertOldConfigs(newConfig);
 		Path targetFilePath = new File(IOUtils.getConfigFilePath()).toPath();
-		byte[] content = objectMapper
+		byte[] content = new ObjectMapper()
 		    .enable(SerializationFeature.INDENT_OUTPUT)
 		    .writeValueAsBytes(newConfig);
 		Files.write(targetFilePath, content,StandardOpenOption.TRUNCATE_EXISTING);

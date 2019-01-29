@@ -16,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 
+import com.mpay.ccd.exception.FileNotExistException;
 import com.mpay.ccd.exception.URLException;
 import com.mpay.ccd.model.ConfigModel;
 import com.mpay.ccd.model.LinkModel;
@@ -49,7 +50,7 @@ public class Scheduler{
 	/** The comparision service. */
 	@Autowired
 	private ComparisionService comparisionService;
-
+	
 	/**
 	 * Monitor then do actions.
 	 */
@@ -58,20 +59,17 @@ public class Scheduler{
 		StringBuilder changes = new StringBuilder();
 		boolean isChanged = false;
 		List<File> files = new ArrayList<>();
+		String newContent = "";
 		
 		ConfigModel config = ConfigService.getConfig();
 		for (LinkModel link : config.getLinks()) {
 			String change = "";
 			try {
-				String newContent = requestSender.callRequest(link);
+				newContent = requestSender.callRequest(link);
 				String storedContent = io.getLastestFileContent(link.getTitle());
-				if (storedContent.equals("FILE_NEVER_STORED_BEFORE")) {
-					change = startMonitoring(link, newContent);
-					continue;
-				} 
 				
 				String diffContent = comparisionService.getDifference(storedContent, newContent);
-				if (diffContent.equals("NO_DIFFERENCE")) {
+				if (diffContent.isEmpty()) {
 					logger.info("No change: {}", link);
 				} else {
 					isChanged = true;
@@ -89,15 +87,13 @@ public class Scheduler{
 				isChanged = true;
 				logger.error("Url khong dung dinh dang: {}", link, e);
 				change = "\nUrl \n" + link.getLink() + " \nkhong dung dinh dang.";
-			} catch (RestClientException e) {
-				isChanged = true;
-				logger.error("Khong ket noi duoc den url: {}", link.getLink());
-				change = "\nUrl \n" + link.getLink() + " \nkhong hoat dong.";
+			} catch (FileNotExistException e) {
+			  change = startMonitoring(link, newContent);
 			} catch (IOException e) {
 				isChanged = true;
 				logger.error("\nKhong doc/ghi duoc file cua url: {}", link.getLink(), e);
 				change = e.getMessage();
-			} 
+			}
 			changes.append(change);
 		}
 		
