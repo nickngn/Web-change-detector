@@ -1,22 +1,5 @@
 package com.mpay.ccd.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.mpay.ccd.CCD;
@@ -25,6 +8,18 @@ import com.mpay.ccd.exception.InvalidJsonException;
 import com.mpay.ccd.exception.UnavailablePortException;
 import com.mpay.ccd.model.ConfigModel;
 import com.mpay.ccd.utils.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.io.*;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 /**
  * The Class ConfigService.
@@ -156,7 +151,7 @@ public class ConfigService {
 	/**
 	 * Checks if is tcp runningPort available.
 	 *
-	 * @param runningPort the runningPort
+	 * @param port the runningPort
 	 * @return true, if is tcp runningPort available
 	 */
 	public boolean isTcpPortAvailable(int port) {
