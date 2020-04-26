@@ -50,10 +50,9 @@ public class ComparisionService {
 		}
 		
 		if (source == null) {
-			return new StringBuilder()
-					.append(ADD_COMMENT_OPEN)
-					.append(receivedContent)
-					.append(ADD_COMMENT_CLOSE).toString();
+			return ADD_COMMENT_OPEN +
+					receivedContent +
+					ADD_COMMENT_CLOSE;
 		}
 		
 		List<String> htmlSourceTags = new ArrayList<>(Arrays.asList(source.split("\n")));
@@ -126,30 +125,26 @@ public class ComparisionService {
 	 * Removes the empty lines.
 	 *
 	 * @param lines the lines
-	 * @return the list
 	 */
-	private static List<String> removeEmptyLines(List<String> lines) {
+	private static void removeEmptyLines(List<String> lines) {
 		Predicate<String> isEmptyLine = line -> ((line != null) && (line.equals("\r") || line.equals("")));
 		
 		lines.removeIf(isEmptyLine);
-		return lines;
 	}
 	
 	/**
 	 * Removes the token inputs.
 	 *
 	 * @param lines the lines
-	 * @return the list
 	 */
-	private static List<String> removeTokenInputs(List<String> lines) {
+	private static void removeTokenInputs(List<String> lines) {
 		Predicate<String> isTokenLine = 
 				line -> ((line != null) 
 						&& line.contains("<input ") 
 						&& (line.contains("type=\"hidden\"") || line.contains("type='hidden'")));
 		
 		lines.removeIf(isTokenLine);
-		return lines;
-		
+
 	}
 	
 }

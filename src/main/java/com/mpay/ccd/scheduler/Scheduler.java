@@ -1,30 +1,27 @@
 package com.mpay.ccd.scheduler;
 
+import com.mpay.ccd.exception.FileNotExistException;
+import com.mpay.ccd.exception.URLException;
+import com.mpay.ccd.model.ConfigModel;
+import com.mpay.ccd.model.LinkModel;
+import com.mpay.ccd.service.ClientService;
+import com.mpay.ccd.service.ComparisionService;
+import com.mpay.ccd.service.ConfigService;
+import com.mpay.ccd.service.EmailService;
+import com.mpay.ccd.utils.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.mail.MessagingException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-
-import com.mpay.ccd.exception.FileNotExistException;
-import com.mpay.ccd.exception.URLException;
-import com.mpay.ccd.model.ConfigModel;
-import com.mpay.ccd.model.LinkModel;
-import com.mpay.ccd.service.ComparisionService;
-import com.mpay.ccd.service.ConfigService;
-import com.mpay.ccd.service.EmailService;
-import com.mpay.ccd.service.ClientService;
-import com.mpay.ccd.utils.IOUtils;
 
 /**
  * The Class Scheduler.
@@ -66,7 +63,7 @@ public class Scheduler{
 			String change = "";
 			try {
 				newContent = requestSender.callRequest(link);
-				String storedContent = io.getLastestFileContent(link.getTitle());
+				String storedContent = io.getLatestFileContent(link.getTitle());
 				
 				String diffContent = comparisionService.getDifference(storedContent, newContent);
 				if (diffContent.isEmpty()) {

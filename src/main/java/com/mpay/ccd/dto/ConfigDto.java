@@ -4,10 +4,16 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import com.mpay.ccd.model.ConfigModel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * The Class ConfigDto.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 public class ConfigDto {
 
 	/** The port. */
@@ -41,95 +47,5 @@ public class ConfigDto {
 						.split(";"))));
 		return object;
 	}
-	
-	/**
-	 * Gets the port.
-	 *
-	 * @return the port
-	 */
-	public int getPort() {
-		return port;
-	}
 
-	/**
-	 * Sets the port.
-	 *
-	 * @param port the new port
-	 */
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-	/**
-	 * Gets the looping time.
-	 *
-	 * @return the looping time
-	 */
-	public long getLoopingTime() {
-		return loopingTime;
-	}
-	
-	/**
-	 * Sets the looping time.
-	 *
-	 * @param loopingTime the new looping time
-	 */
-	public void setLoopingTime(long loopingTime) {
-		this.loopingTime = loopingTime;
-	}
-	
-	/**
-	 * Gets the sender email.
-	 *
-	 * @return the sender email
-	 */
-	public String getSenderEmail() {
-		return senderEmail;
-	}
-	
-	/**
-	 * Sets the sender email.
-	 *
-	 * @param senderEmail the new sender email
-	 */
-	public void setSenderEmail(String senderEmail) {
-		this.senderEmail = senderEmail;
-	}
-	
-	/**
-	 * Gets the sender email password.
-	 *
-	 * @return the sender email password
-	 */
-	public String getSenderEmailPassword() {
-		return senderEmailPassword;
-	}
-	
-	/**
-	 * Sets the sender email password.
-	 *
-	 * @param senderEmailPassword the new sender email password
-	 */
-	public void setSenderEmailPassword(String senderEmailPassword) {
-		this.senderEmailPassword = senderEmailPassword;
-	}
-	
-	/**
-	 * Gets the receiver emails.
-	 *
-	 * @return the receiver emails
-	 */
-	public String getReceiverEmails() {
-		return receiverEmails;
-	}
-	
-	/**
-	 * Sets the receiver emails.
-	 *
-	 * @param receiverEmails the new receiver emails
-	 */
-	public void setReceiverEmails(String receiverEmails) {
-		this.receiverEmails = receiverEmails;
-	}
-	
 }

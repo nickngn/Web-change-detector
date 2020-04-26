@@ -1,24 +1,18 @@
 package com.mpay.ccd.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
+import com.mpay.ccd.exception.FileNotExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.mpay.ccd.exception.FileNotExistException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
 
 /**
  * The Class IOUtils.
@@ -124,28 +118,28 @@ public class IOUtils {
 			Files.createDirectory(path);
 		}
 	}
-	
+
 	/**
 	 * Lay file duoc luu lai tu lan thay doi truoc.
 	 *
 	 * @param title the title
 	 * @return content of file; if file is not exist return "FILE_NEVER_STORED_BEFORE"
 	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws FileNotExistException 
+	 * @throws FileNotExistException file not found
 	 */
-	public String getLastestFileContent(String title) throws IOException, FileNotExistException {
+	public String getLatestFileContent(String title) throws IOException, FileNotExistException {
 		String link = IOUtils.getFilePath("html", STORE_DIRECTORY, title);
 		File file = new File(link);
 		if (!file.exists()) {
 		  throw new FileNotExistException("Khong tim thay file: " + link);
-		}		
+		}
 		try {
 			return readFile(link);
 		} catch (IOException e) {
 			throw new IOException("Khong doc duoc noi dung file " + STORE_DIRECTORY + "/" + title + ".html");
 		}
 	}
-	
+
 	/**
 	 * Read file as string.
 	 *
@@ -158,7 +152,7 @@ public class IOUtils {
 	    data = new String(Files.readAllBytes(Paths.get(fileName)));
 	    return data;
 	}
-	
+
 	/**
 	 * Chuyen file sang thu muc version cu.
 	 *
